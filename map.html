@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=my_api&libraries=places&callback=initMap" defer></script>
+    <style>
+        #map {
+            height: 600px;
+        }
+
+        #search-bar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        #search-input {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="장소 검색">
+    </div>
+
+    <script>
+        function initMap() {
+            var mapOptions = {
+                center: { lat: 37.5, lng: 127.0 },
+                zoom: 6
+            };
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            var searchInput = document.getElementById("search-input");
+
+            // 검색 창 생성
+            var searchBox = new google.maps.places.SearchBox(searchInput);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchInput);
+
+            map.addListener("bounds_changed", function() {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            searchBox.addListener("places_changed", function() {
+                var places = searchBox.getPlaces();
+
+                if (places.length === 0) {
+                    return;
+                }
+
+                // 장소 검색 결과 처리
+                // ...
+            });
+        }
+    </script>
+</body>
+</html>
