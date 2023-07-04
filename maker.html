@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Restaurants Finder</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=mykey&libraries=places&callback=initMap" defer></script>
+    <style>
+        #map {
+            height: 400px;
+        }
+
+        #search-bar {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+            background-color: #fff;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="음식점 검색">
+        <button id="search-button">검색</button>
+    </div>
+
+    <script>
+        var map;
+        var placesService;
+
+        function initMap() {
+            var mapOptions = {
+                center: { lat: 37.5, lng: 127.0 },
+                zoom: 15
+            };
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            placesService = new google.maps.places.PlacesService(map);
+
+            var searchButton = document.getElementById("search-button");
+
+            searchButton.addEventListener("click", function() {
+                var searchInput = document.getElementById("search-input").value;
+                searchNearbyRestaurants(searchInput);
+            });
+        }
+
+        function searchNearbyRestaurants(keyword) {
+            var request = {
+                location: { lat: 37.5, lng: 127.0 },
+                radius: 1000,
+                keyword: keyword
+            };
+
+            placesService.nearbySearch(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    clearMarkers();
+                    createMarkers(results);
+                }
+            });
+        }
+
+        var markers = [];
+
+        function createMarkers(places) {
+            for (var i = 0; i < places.length; i++) {
+                var place = places[i];
+                var marker = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: map,
+                    title: place.name
+                });
+                markers.push(marker);
+            }
+        }
+
+        function clearMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+    </script>
+</body>
+</html>
