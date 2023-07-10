@@ -1,62 +1,128 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Simple Map</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=my_api&libraries=places&callback=initMap" defer></script>
-    <style>
-        #map {
-            height: 600px;
-        }
+  <title>ShinWoo's Portfolio</title>
+  <style>
+    body {
+      background-color: #263235;
+      color: #ffff;
+      font-family: Arial, sans-serif;
+    }
 
-        #search-bar {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1;
-            background-color: #fff;
-            padding: 5px;
-        }
+    header {
+      text-align: center;
+      padding: 80px 0; /* 여백 크기 조절 */
+      background-color: #15202b; /* 배경색 변경 */
+    }
 
-        #search-input {
-            width: 200px;
-        }
-    </style>
+    .header-text {
+      animation: waving-animation 2s infinite;
+      color: #ffff; /* 텍스트 색상 변경 */
+      background-image: url('경로/이미지파일.jpg'); /* 배경 이미지 추가 */
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    @keyframes waving-animation {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .contact {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .contact a {
+      color: #ffff;
+      text-decoration: none;
+      margin: 5px;
+    }
+
+    .me {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .tech-stack {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 80px; /* Tech Stack 섹션의 아래 여백 크기 조절 */
+    }
+
+    .badge {
+      margin: 5px;
+    }
+
+    #map {
+      height: 400px;
+      margin-top: 40px; /* 지도와의 여백 조절 */
+    }
+  </style>
 </head>
+
 <body>
-    <div id="map"></div>
-    <div id="search-bar">
-        <input type="text" id="search-input" placeholder="장소 검색">
-    </div>
+  <header>
+    <h1 class="header-text">ShinWoo</h1>
+  </header>
 
-    <script>
-        function initMap() {
-            var mapOptions = {
-                center: { lat: 37.5, lng: 127.0 },
-                zoom: 6
-            };
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  <h1>📞 Contact 📞</h1>
+  <div class="contact">
+    <a href="mailto:lsw071218@gmail.com">lsw071218@gmail.com</a>
+    <br>
+    <a href="https://www.instagram.com/satell_07/">@satell_07</a>
+  </div>
 
-            var searchInput = document.getElementById("search-input");
+  <h1>🎁 Me 🎁</h1>
+  <div class="me">
+    <img src="https://github-readme-stats.vercel.app/api?username=Satellite1218&show_icons=true" alt="Satellite1218's github stats">
+  </div>
 
-            // 검색 창 생성
-            var searchBox = new google.maps.places.SearchBox(searchInput);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchInput);
+  <h1>💻 Tech Stack 💻</h1>
+  <div class="tech-stack">
+    <img class="badge" src="https://img.shields.io/badge/C-263235?style=flat&logo=C&logoColor=color" alt="C" />
+    <img class="badge" src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=C%2B%2B&logoColor=white" alt="C++" />
+    <img class="badge" src="https://img.shields.io/badge/Cshap-263235?style=flat&logo=Csharp&logoColor=color" alt="C#" />
+    <br>
+    <img class="badge" src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white" alt="HTML5" />
+    <img class="badge" src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white" alt="CSS3" />
+    <img class="badge" src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white" alt="Git" />
+    <br>
+    <img class="badge" src="https://img.shields.io/badge/Visual Studio-5C2D91?style=flat-square&logo=Visual Studio&logoColor=white" alt="Visual Studio" />
+    <img class="badge" src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white" alt="Visual Studio Code" />
+  </div>
 
-            map.addListener("bounds_changed", function() {
-                searchBox.setBounds(map.getBounds());
-            });
+  <h1>🗺️ My location 🗺️</h1>
+  <div id="map"></div>
 
-            searchBox.addListener("places_changed", function() {
-                var places = searchBox.getPlaces();
+  <script>
+    const headerText = document.querySelector(".header-text");
+    const textArray = ["ShinWoo", "Front-end Developer", "Graphic Designer"];
+    let currentIndex = 0;
 
-                if (places.length === 0) {
-                    return;
-                }
+    setInterval(() => {
+      headerText.textContent = textArray[currentIndex];
+      currentIndex = (currentIndex + 1) % textArray.length;
+    }, 2000);
 
-                // 장소 검색 결과 처리
-                // ...
-            });
-        }
-    </script>
+    function initMap() {
+      var mapOptions = {
+        center: { lat: 37.5, lng: 127.0 },
+        zoom: 10,
+      };
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </body>
+
 </html>
